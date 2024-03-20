@@ -22,12 +22,21 @@
     <h2>Profile</h2>
     <p>Your 15 ID: <span id="roblox-id">N/A</span></p>
     <p>Username: <span id="profile-username">N/A</span></p>
+    <h3>Forum</h3>
+    <div id="forum"></div>
+    <input type="text" id="comment" placeholder="Write a comment...">
+    <button id="post-comment">Post Comment</button>
 </div>
 
 <script>
     // Function to display username in profile
     function displayUsername(username) {
         document.getElementById("profile-username").textContent = username;
+    }
+
+    // Function to display ID in profile
+    function displayID(id) {
+        document.getElementById("roblox-id").textContent = id !== null ? id : "N/A";
     }
 
     // Event listener for sign-in form submission
@@ -42,6 +51,27 @@
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
         displayUsername(username); // Display username in profile
+        // Simulate retrieving the user's ID (replace with actual logic)
+        const userID = Math.floor(Math.random() * 1000); // Random ID for demonstration
+        displayID(userID); // Display ID in profile
+    });
+
+    // Function to add a new comment
+    function addComment(comment) {
+        const commentDiv = document.createElement("div");
+        commentDiv.textContent = comment;
+        document.getElementById("forum").appendChild(commentDiv);
+    }
+
+    // Event listener for posting a comment
+    document.getElementById("post-comment").addEventListener("click", function() {
+        const comment = document.getElementById("comment").value.trim();
+        if (comment === "") {
+            alert("Please enter a comment.");
+            return;
+        }
+        addComment(comment); // Add the comment to the forum
+        document.getElementById("comment").value = ""; // Clear the input field
     });
 
     // Check if a username is stored and display it
@@ -50,6 +80,9 @@
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
         displayUsername(storedUsername);
+        // Simulate retrieving the user's ID (replace with actual logic)
+        const userID = Math.floor(Math.random() * 1000); // Random ID for demonstration
+        displayID(userID); // Display ID in profile
     }
 </script>
 
