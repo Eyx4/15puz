@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15 ID Game</title>
+    <style>
+        /* Style for the puzzle game */
+        #puzzle-container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 200px;
+        }
+        .puzzle-piece {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .puzzle-piece:hover {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sign-in form -->
+<div id="signin" style="display:block;">
+    <h2>Sign In</h2>
+    <form id="signin-form">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <button type="submit">Sign In</button>
+    </form>
+</div>
+
+<!-- Profile page -->
+<div id="profile" style="display:none;">
+    <h2>Profile</h2>
+    <p>Your Roblox ID: <span id="roblox-id">N/A</span></p>
+    <h3>15 ID Game</h3>
+    <div id="puzzle-container"></div>
+</div>
+
+<script>
+    // Dummy function for authentication (replace with actual authentication logic)
+    function authenticate(username, password) {
+        // Dummy credentials for demonstration purposes
+        const validCredentials = {
+            "user1": "password1",
+            "user2": "password2"
+        };
+        return validCredentials[username] === password;
+    }
+
+    // Dummy function to retrieve Roblox ID (replace with actual logic)
+    function getRobloxID(username) {
+        // Dummy IDs for demonstration purposes
+        const userIDs = {
+            "user1": 123456789,
+            "user2": 987654321
+        };
+        return userIDs[username];
+    }
+
+    // Initialize puzzle game
+    const puzzleContainer = document.getElementById("puzzle-container");
+    const tiles = [];
+    for (let i = 0; i < 15; i++) {
+        const tile = document.createElement("div");
+        tile.className = "puzzle-piece";
+        tile.textContent = i + 1;
+        tiles.push(tile);
+        puzzleContainer.appendChild(tile);
+    }
+
+    // Function to shuffle puzzle pieces
+    function shuffleTiles() {
+        for (let i = tiles.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [tiles[i].textContent, tiles[j].textContent] = [tiles[j].textContent, tiles[i].textContent];
+        }
+    }
+
+    // Event listener for sign-in form submission
+    document.getElementById("signin-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        if (authenticate(username, password)) {
+            const robloxID = getRobloxID(username);
+            document.getElementById("roblox-id").textContent = robloxID;
+            document.getElementById("signin").style.display = "none";
+            document.getElementById("profile").style.display = "block";
+            shuffleTiles();
+        } else {
+            alert("Invalid username or password");
+        }
+    });
+</script>
+
+</body>
+</html>
