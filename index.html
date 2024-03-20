@@ -29,9 +29,15 @@
 <body>
 
 <!-- Sign-in form -->
-<div id="signin">
+<div id="signin" style="display:block;">
     <h2>Sign In</h2>
-    <button id="signin-button">Sign In</button>
+    <form id="signin-form">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" maxlength="26" pattern="[a-zA-Z ]+" title="Only letters and spaces are allowed"><br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <button type="submit">Sign In</button>
+    </form>
 </div>
 
 <!-- Profile page -->
@@ -84,8 +90,9 @@
         }
     }
 
-    // Event listener for sign-in button click
-    document.getElementById("signin-button").addEventListener("click", function() {
+    // Event listener for sign-in form submission
+    document.getElementById("signin-form").addEventListener("submit", function(event) {
+        event.preventDefault();
         const robloxID = generateRobloxID();
         document.getElementById("roblox-id").textContent = robloxID;
         document.getElementById("signin").style.display = "none";
