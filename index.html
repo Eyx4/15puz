@@ -33,9 +33,7 @@
     <h2>Sign In</h2>
     <form id="signin-form">
         <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br><br>
+        <input type="text" id="username" name="username" maxlength="26" pattern="[a-zA-Z ]+" title="Only letters and spaces are allowed"><br><br>
         <button type="submit">Sign In</button>
     </form>
 </div>
@@ -49,14 +47,9 @@
 </div>
 
 <script>
-    // Dummy function to retrieve Roblox ID (replace with actual logic)
-    function getRobloxID(username) {
-        // Dummy IDs for demonstration purposes
-        const userIDs = {
-            "user1": 123456789,
-            "user2": 987654321
-        };
-        return userIDs[username];
+    // Dummy function to generate a random Roblox ID
+    function generateRobloxID() {
+        return Math.floor(Math.random() * 1000000000); // Random 9-digit number
     }
 
     // Initialize puzzle game
@@ -82,8 +75,11 @@
     document.getElementById("signin-form").addEventListener("submit", function(event) {
         event.preventDefault();
         const username = document.getElementById("username").value;
-        // Dummy validation, just proceed with any username
-        const robloxID = getRobloxID(username);
+        if (username.trim() === "") {
+            alert("Please enter a valid username.");
+            return;
+        }
+        const robloxID = generateRobloxID();
         document.getElementById("roblox-id").textContent = robloxID;
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
