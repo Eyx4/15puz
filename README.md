@@ -1,2 +1,2 @@
 # 15puz
-Beta 1.0
+DR releases
