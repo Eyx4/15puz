@@ -95,9 +95,11 @@
             alert("Please enter a valid username.");
             return;
         }
+        console.log("Saving username:", username);
+        saveUsername(username); // Save username to localStorage
+        console.log("Username saved.");
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
-        saveUsername(username); // Save username to localStorage
         displayUsername(username); // Display username in profile
     });
 
@@ -136,13 +138,4 @@
     });
 
     // Check if a username is stored and display it
-    const storedUsername = getStoredUsername();
-    if (storedUsername) {
-        displayUsername(storedUsername);
-        document.getElementById("signin").style.display = "none";
-        document.getElementById("profile").style.display = "block";
-    }
-</script>
-
-</body>
-</html>
+    const
