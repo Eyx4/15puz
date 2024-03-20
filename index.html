@@ -29,27 +29,30 @@
 <body>
 
 <!-- Sign-in form -->
-<div id="signin" style="display:block;">
+<div id="signin">
     <h2>Sign In</h2>
-    <form id="signin-form">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" maxlength="26" pattern="[a-zA-Z ]+" title="Only letters and spaces are allowed"><br><br>
-        <button type="submit">Sign In</button>
-    </form>
+    <button id="signin-button">Sign In</button>
 </div>
 
 <!-- Profile page -->
 <div id="profile" style="display:none;">
     <h2>Profile</h2>
-    <p>Your Roblox ID: <span id="roblox-id">N/A</span></p>
+    <p>Your 15 ID: <span id="roblox-id">N/A</span></p>
     <h3>15 ID Game</h3>
     <div id="puzzle-container"></div>
 </div>
 
 <script>
-    // Dummy function to generate a random Roblox ID
+    // Initialize the sign-in counter in local storage if it doesn't exist
+    if (!localStorage.getItem("signinCounter")) {
+        localStorage.setItem("signinCounter", 0);
+    }
+
+    // Function to generate the Roblox ID based on the sign-in order
     function generateRobloxID() {
-        return Math.floor(Math.random() * 1000000000); // Random 9-digit number
+        const signinCounter = parseInt(localStorage.getItem("signinCounter")) + 1;
+        localStorage.setItem("signinCounter", signinCounter);
+        return 15 + signinCounter; // Start from 15 and increment for each sign-in
     }
 
     // Initialize puzzle game
@@ -71,14 +74,8 @@
         }
     }
 
-    // Event listener for sign-in form submission
-    document.getElementById("signin-form").addEventListener("submit", function(event) {
-        event.preventDefault();
-        const username = document.getElementById("username").value;
-        if (username.trim() === "") {
-            alert("Please enter a valid username.");
-            return;
-        }
+    // Event listener for sign-in button click
+    document.getElementById("signin-button").addEventListener("click", function() {
         const robloxID = generateRobloxID();
         document.getElementById("roblox-id").textContent = robloxID;
         document.getElementById("signin").style.display = "none";
