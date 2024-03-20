@@ -25,16 +25,6 @@
 </div>
 
 <script>
-    // Function to retrieve username from localStorage
-    function getStoredUsername() {
-        return localStorage.getItem("username");
-    }
-
-    // Function to save username to localStorage
-    function saveUsername(username) {
-        localStorage.setItem("username", username);
-    }
-
     // Function to display username in profile
     function displayUsername(username) {
         document.getElementById("profile-username").textContent = username;
@@ -48,14 +38,14 @@
             alert("Please enter a valid username.");
             return;
         }
-        saveUsername(username); // Save username to localStorage
+        localStorage.setItem("username", username); // Save username to localStorage
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
         displayUsername(username); // Display username in profile
     });
 
     // Check if a username is stored and display it
-    const storedUsername = getStoredUsername();
+    const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
