@@ -4,50 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>15 ID Game</title>
-    <style>
-        /* Style for the forum layout */
-        #forum-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-        .forum-post {
-            border: 1px solid #ccc;
-            padding: 10px;
-            background-color: #f9f9f9;
-            margin-bottom: 10px;
-        }
-        .small-box {
-            width: 80px;
-            height: 80px;
-            border: 1px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 14px;
-        }
-        .rainbow {
-            animation: rainbow 1s infinite;
-        }
-        @keyframes rainbow {
-            0% { color: red; }
-            20% { color: orange; }
-            40% { color: yellow; }
-            60% { color: green; }
-            80% { color: blue; }
-            100% { color: purple; }
-        }
-        .no-posts {
-            grid-column: span 2;
-            text-align: center;
-            font-style: italic;
-        }
-    </style>
 </head>
 <body>
 
 <!-- Sign-in form -->
-<div id="signin" style="display:block;">
+<div id="signin">
     <h2>Sign In</h2>
     <form id="signin-form">
         <label for="username">Username:</label><br>
@@ -61,14 +22,6 @@
     <h2>Profile</h2>
     <p>Your 15 ID: <span id="roblox-id">N/A</span></p>
     <p>Username: <span id="profile-username">N/A</span></p>
-    <h3>Forum</h3>
-    <div id="forum-container">
-        <!-- Placeholder text for no posts -->
-        <div id="no-posts" class="no-posts" style="display: none;">Be the first one to comment!</div>
-    </div>
-    <input type="text" id="comment-input" class="comment-input" placeholder="Write a comment...">
-    <button id="comment-button" class="comment-button">Post Comment</button>
-    <button id="restart-button">Restart Game</button>
 </div>
 
 <script>
@@ -95,47 +48,20 @@
             alert("Please enter a valid username.");
             return;
         }
-        console.log("Saving username:", username);
         saveUsername(username); // Save username to localStorage
-        console.log("Username saved.");
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
         displayUsername(username); // Display username in profile
     });
 
-    // Event listener for posting a comment
-    document.getElementById("comment-button").addEventListener("click", function() {
-        const commentInput = document.getElementById("comment-input").value.trim();
-        if (commentInput === "") {
-            alert("Please enter a comment.");
-            return;
-        }
-        const forumContainer = document.getElementById("forum-container");
-        const noPostsText = document.getElementById("no-posts");
-        if (noPostsText) {
-            noPostsText.style.display = "none"; // Hide the "No posts" text if there are posts
-        }
-        const commentPost = document.createElement("div");
-        commentPost.className = "forum-post";
-        const h3 = document.createElement("h3");
-        const postCount = forumContainer.getElementsByClassName("forum-post").length + 1;
-        h3.textContent = `Post ${postCount}`;
-        commentPost.appendChild(h3);
-        const smallBox = document.createElement("div");
-        smallBox.className = "small-box";
-        smallBox.textContent = commentInput;
-        if (commentInput.toLowerCase().includes("jeb")) {
-            smallBox.classList.add("rainbow");
-        }
-        commentPost.appendChild(smallBox);
-        forumContainer.appendChild(commentPost);
-        document.getElementById("comment-input").value = ""; // Clear the input field
-    });
-
-    // Event listener for restart button click
-    document.getElementById("restart-button").addEventListener("click", function() {
-        location.reload(); // Refresh the page to reset the game
-    });
-
     // Check if a username is stored and display it
-    const
+    const storedUsername = getStoredUsername();
+    if (storedUsername) {
+        document.getElementById("signin").style.display = "none";
+        document.getElementById("profile").style.display = "block";
+        displayUsername(storedUsername);
+    }
+</script>
+
+</body>
+</html>
