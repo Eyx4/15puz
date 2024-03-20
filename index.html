@@ -49,16 +49,6 @@
 </div>
 
 <script>
-    // Dummy function for authentication (replace with actual authentication logic)
-    function authenticate(username, password) {
-        // Dummy credentials for demonstration purposes
-        const validCredentials = {
-            "user1": "password1",
-            "user2": "password2"
-        };
-        return validCredentials[username] === password;
-    }
-
     // Dummy function to retrieve Roblox ID (replace with actual logic)
     function getRobloxID(username) {
         // Dummy IDs for demonstration purposes
@@ -92,16 +82,12 @@
     document.getElementById("signin-form").addEventListener("submit", function(event) {
         event.preventDefault();
         const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        if (authenticate(username, password)) {
-            const robloxID = getRobloxID(username);
-            document.getElementById("roblox-id").textContent = robloxID;
-            document.getElementById("signin").style.display = "none";
-            document.getElementById("profile").style.display = "block";
-            shuffleTiles();
-        } else {
-            alert("Invalid username or password");
-        }
+        // Dummy validation, just proceed with any username
+        const robloxID = getRobloxID(username);
+        document.getElementById("roblox-id").textContent = robloxID;
+        document.getElementById("signin").style.display = "none";
+        document.getElementById("profile").style.display = "block";
+        shuffleTiles();
     });
 </script>
 
