@@ -40,6 +40,7 @@
     <p>Your 15 ID: <span id="roblox-id">N/A</span></p>
     <h3>15 ID Game</h3>
     <div id="puzzle-container"></div>
+    <button id="restart-button">Restart Game</button>
 </div>
 
 <script>
@@ -57,13 +58,22 @@
 
     // Initialize puzzle game
     const puzzleContainer = document.getElementById("puzzle-container");
-    const tiles = [];
-    for (let i = 0; i < 15; i++) {
-        const tile = document.createElement("div");
-        tile.className = "puzzle-piece";
-        tile.textContent = i + 1;
-        tiles.push(tile);
-        puzzleContainer.appendChild(tile);
+    let tiles = [];
+    initializeTiles();
+
+    // Function to initialize puzzle pieces
+    function initializeTiles() {
+        // Clear previous tiles
+        puzzleContainer.innerHTML = '';
+        tiles = [];
+        for (let i = 0; i < 15; i++) {
+            const tile = document.createElement("div");
+            tile.className = "puzzle-piece";
+            tile.textContent = i + 1;
+            tiles.push(tile);
+            puzzleContainer.appendChild(tile);
+        }
+        shuffleTiles();
     }
 
     // Function to shuffle puzzle pieces
@@ -80,7 +90,11 @@
         document.getElementById("roblox-id").textContent = robloxID;
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
-        shuffleTiles();
+    });
+
+    // Event listener for restart button click
+    document.getElementById("restart-button").addEventListener("click", function() {
+        initializeTiles();
     });
 </script>
 
