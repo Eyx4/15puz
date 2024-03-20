@@ -16,6 +16,14 @@
             padding: 10px;
             background-color: #f9f9f9;
         }
+        .comment-input {
+            margin-top: 10px;
+            width: calc(100% - 20px);
+        }
+        .comment-button {
+            margin-top: 5px;
+            width: calc(100% - 20px);
+        }
     </style>
 </head>
 <body>
@@ -36,6 +44,8 @@
     <p>Your 15 ID: <span id="roblox-id">N/A</span></p>
     <h3>Forum</h3>
     <div id="forum-container"></div>
+    <input type="text" id="comment-input" class="comment-input" placeholder="Write a comment...">
+    <button id="comment-button" class="comment-button">Post Comment</button>
     <button id="restart-button">Restart Game</button>
 </div>
 
@@ -61,9 +71,13 @@
             post.className = "forum-post";
             post.innerHTML = `
                 <h3>Post ${i}</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eget tortor scelerisque, fermentum neque nec, scelerisque enim.</p>
+                <p id="comment-post-${i}"></p>
             `;
             forumContainer.appendChild(post);
+            const storedComment = localStorage.getItem(`comment-post-${i}`);
+            if (storedComment) {
+                document.getElementById(`comment-post-${i}`).textContent = storedComment;
+            }
         }
     }
 
@@ -80,6 +94,21 @@
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
         createForumPosts();
+    });
+
+    // Event listener for posting a comment
+    document.getElementById("comment-button").addEventListener("click", function() {
+        const commentInput = document.getElementById("comment-input").value.trim();
+        if (commentInput === "") {
+            alert("Please enter a comment.");
+            return;
+        }
+        const forumContainer = document.getElementById("forum-container");
+        const currentPostIndex = forumContainer.children.length - 2; // Last two buttons are not posts
+        const commentPost = document.getElementById(`comment-post-${currentPostIndex}`);
+        commentPost.textContent = commentInput;
+        localStorage.setItem(`comment-post-${currentPostIndex}`, commentInput);
+        document.getElementById("comment-input").value = ""; // Clear the input field
     });
 
     // Event listener for restart button click
