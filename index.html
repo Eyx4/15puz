@@ -72,17 +72,33 @@
 </div>
 
 <script>
+    // Function to retrieve username from localStorage
+    function getStoredUsername() {
+        return localStorage.getItem("username");
+    }
+
+    // Function to save username to localStorage
+    function saveUsername(username) {
+        localStorage.setItem("username", username);
+    }
+
+    // Function to display username in profile
+    function displayUsername(username) {
+        document.getElementById("profile-username").textContent = username;
+    }
+
     // Event listener for sign-in form submission
     document.getElementById("signin-form").addEventListener("submit", function(event) {
         event.preventDefault();
-        const username = document.getElementById("username").value;
-        if (username.trim() === "") {
+        const username = document.getElementById("username").value.trim();
+        if (username === "") {
             alert("Please enter a valid username.");
             return;
         }
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
-        document.getElementById("profile-username").textContent = username; // Display username in profile
+        saveUsername(username); // Save username to localStorage
+        displayUsername(username); // Display username in profile
     });
 
     // Event listener for posting a comment
@@ -118,6 +134,14 @@
     document.getElementById("restart-button").addEventListener("click", function() {
         location.reload(); // Refresh the page to reset the game
     });
+
+    // Check if a username is stored and display it
+    const storedUsername = getStoredUsername();
+    if (storedUsername) {
+        displayUsername(storedUsername);
+        document.getElementById("signin").style.display = "none";
+        document.getElementById("profile").style.display = "block";
+    }
 </script>
 
 </body>
