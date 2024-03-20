@@ -18,7 +18,7 @@
     </form>
 </div>
 
-<div id="login">
+<div id="login" style="display:none;">
     <h2>Login</h2>
     <form id="login-form">
         <label for="login-username">Username:</label><br>
@@ -35,7 +35,6 @@
     <p>Username: <span id="profile-username">N/A</span></p>
     <h3>Forum</h3>
     <div id="forum"></div>
-    <div id="pagination"></div>
     <input type="text" id="comment" placeholder="Write a comment...">
     <button id="post-comment">Post Comment</button>
 </div>
@@ -59,7 +58,7 @@
         event.preventDefault();
         const username = document.getElementById("username").value.trim();
         const password = document.getElementById("password").value;
-        if (username === "" || password === "") {
+        if (!username || !password) {
             alert("Please enter both username and password.");
             return;
         }
@@ -80,7 +79,7 @@
         const username = document.getElementById("login-username").value.trim();
         const password = document.getElementById("login-password").value;
         const credentials = JSON.parse(localStorage.getItem("credentials")) || {};
-        if (!credentials[username] || credentials[username] !== password) {
+        if (!username || !password || !credentials[username] || credentials[username] !== password) {
             alert("Invalid username or password.");
             return;
         }
