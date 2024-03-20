@@ -15,14 +15,32 @@
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f9f9f9;
+            margin-bottom: 10px;
         }
-        .comment-input {
-            margin-top: 10px;
-            width: calc(100% - 20px);
+        .small-box {
+            width: 80px;
+            height: 80px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
         }
-        .comment-button {
-            margin-top: 5px;
-            width: calc(100% - 20px);
+        .rainbow {
+            animation: rainbow 1s infinite;
+        }
+        @keyframes rainbow {
+            0% { color: red; }
+            20% { color: orange; }
+            40% { color: yellow; }
+            60% { color: green; }
+            80% { color: blue; }
+            100% { color: purple; }
+        }
+        .no-posts {
+            grid-column: span 2;
+            text-align: center;
+            font-style: italic;
         }
     </style>
 </head>
@@ -42,45 +60,18 @@
 <div id="profile" style="display:none;">
     <h2>Profile</h2>
     <p>Your 15 ID: <span id="roblox-id">N/A</span></p>
+    <p>Username: <span id="profile-username">N/A</span></p>
     <h3>Forum</h3>
-    <div id="forum-container"></div>
+    <div id="forum-container">
+        <!-- Placeholder text for no posts -->
+        <div id="no-posts" class="no-posts" style="display: none;">Be the first one to comment!</div>
+    </div>
     <input type="text" id="comment-input" class="comment-input" placeholder="Write a comment...">
     <button id="comment-button" class="comment-button">Post Comment</button>
     <button id="restart-button">Restart Game</button>
 </div>
 
 <script>
-    // Initialize the sign-in counter in local storage if it doesn't exist
-    if (!localStorage.getItem("signinCounter")) {
-        localStorage.setItem("signinCounter", 0);
-    }
-
-    // Function to generate the Roblox ID based on the sign-in order
-    function generateRobloxID() {
-        const signinCounter = parseInt(localStorage.getItem("signinCounter")) + 1;
-        localStorage.setItem("signinCounter", signinCounter);
-        return 15 + signinCounter; // Start from 15 and increment for each sign-in
-    }
-
-    // Function to create forum posts
-    function createForumPosts() {
-        const forumContainer = document.getElementById("forum-container");
-        forumContainer.innerHTML = '';
-        for (let i = 1; i <= 4; i++) {
-            const post = document.createElement("div");
-            post.className = "forum-post";
-            post.innerHTML = `
-                <h3>Post ${i}</h3>
-                <p id="comment-post-${i}"></p>
-            `;
-            forumContainer.appendChild(post);
-            const storedComment = localStorage.getItem(`comment-post-${i}`);
-            if (storedComment) {
-                document.getElementById(`comment-post-${i}`).textContent = storedComment;
-            }
-        }
-    }
-
     // Event listener for sign-in form submission
     document.getElementById("signin-form").addEventListener("submit", function(event) {
         event.preventDefault();
@@ -89,11 +80,9 @@
             alert("Please enter a valid username.");
             return;
         }
-        const robloxID = generateRobloxID();
-        document.getElementById("roblox-id").textContent = robloxID;
         document.getElementById("signin").style.display = "none";
         document.getElementById("profile").style.display = "block";
-        createForumPosts();
+        document.getElementById("profile-username").textContent = username; // Display username in profile
     });
 
     // Event listener for posting a comment
@@ -104,16 +93,30 @@
             return;
         }
         const forumContainer = document.getElementById("forum-container");
-        const currentPostIndex = forumContainer.children.length - 2; // Last two buttons are not posts
-        const commentPost = document.getElementById(`comment-post-${currentPostIndex}`);
-        commentPost.textContent = commentInput;
-        localStorage.setItem(`comment-post-${currentPostIndex}`, commentInput);
+        const noPostsText = document.getElementById("no-posts");
+        if (noPostsText) {
+            noPostsText.style.display = "none"; // Hide the "No posts" text if there are posts
+        }
+        const commentPost = document.createElement("div");
+        commentPost.className = "forum-post";
+        const h3 = document.createElement("h3");
+        const postCount = forumContainer.getElementsByClassName("forum-post").length + 1;
+        h3.textContent = `Post ${postCount}`;
+        commentPost.appendChild(h3);
+        const smallBox = document.createElement("div");
+        smallBox.className = "small-box";
+        smallBox.textContent = commentInput;
+        if (commentInput.toLowerCase().includes("jeb")) {
+            smallBox.classList.add("rainbow");
+        }
+        commentPost.appendChild(smallBox);
+        forumContainer.appendChild(commentPost);
         document.getElementById("comment-input").value = ""; // Clear the input field
     });
 
     // Event listener for restart button click
     document.getElementById("restart-button").addEventListener("click", function() {
-        createForumPosts();
+        location.reload(); // Refresh the page to reset the game
     });
 </script>
 
